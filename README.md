@@ -1,0 +1,74 @@
+# CenterSeg
+
+This repo uses Centernet and Conditional Convolutions for Instance Segmentation
+
+> [**Objects as Points**](http://arxiv.org/abs/1904.07850),  
+> [**CondInst: Conditional Convolutions for Instance Segmentation**](https://arxiv.org/abs/2003.05664)
+
+## Installation
+
+Please refer to [INSTALL.md](readme/INSTALL.md) for installation instructions.
+
+This repo supports both CPU and GPU Training and Inference.
+
+## Pre-Trained Models
+
+Will be uploaded soon
+
+## Setup
+```
+git clone {this repo}
+
+pip3 install -r requirements.txt
+```
+
+Compile DCN
+
+```
+cd src/lib/models/networks/DCNv2/
+
+python3 setup build develop
+```
+
+Compile NMS
+```
+cd src/lib/external
+
+python3 setup.py build_ext --inplace
+```
+
+#### Training
+
+###### For GPU
+```
+python3 main.py ctseg --exp_id coco_dla_1x --batch_size 10 --master_batch 5 --lr 1.25e-4 --gpus 0 --num_workers 4
+```
+
+###### FOR CPU
+```
+python3 main.py ctseg --exp_id coco_dla_1x --batch_size 2 --master_batch -1 --lr 1.25e-4 --gpus -1 --num_workers 4
+```
+
+#### Testing
+```
+python3 test.py ctseg --exp_id coco_dla_1x --keep_res --resume
+```
+
+#### Demo
+```
+python3 demo.py ctseg --exp_id coco_dla_1x --keep_res --resume --demo ../data/coco/val2017
+```
+
+## License
+
+CenterSeg is released under the MIT License (refer to the LICENSE file for details).
+This repo contains code borrowed from multiple sources. Please see their respective licenses.
+
+## Credits
+
+https://github.com/xingyizhou
+
+https://github.com/Epiphqny
+
+https://github.com/CaoWGG
+
