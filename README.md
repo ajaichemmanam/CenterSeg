@@ -17,7 +17,7 @@ Will be uploaded soon
 
 ## Setup
 ```
-git clone {this repo}
+git clone --recurse-submodules https://github.com/ajaichemmanam/CenterSeg.git
 
 pip3 install -r requirements.txt
 ```
