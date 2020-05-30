@@ -13,7 +13,19 @@ This repo supports both CPU and GPU Training and Inference.
 
 ## Pre-Trained Models
 
-Will be uploaded soon
+Pre-Release : [Google Drive](https://drive.google.com/drive/folders/1Uw0ucRLpyyHT0pGW2N0o5BcYdSfdNYyC?usp=sharing)
+
+Download the recent model, copy to exp/ctseg/coco_dla_1x/
+
+Rename as model_last.pth
+
+```
+python3 demo.py ctseg --exp_id coco_dla_1x --keep_res --resume --demo ../data/coco/val2017
+```
+
+Note: Model is still training. The initial model may give poor results.
+
+Will update in the drive once the training finishes.
 
 ## Setup
 ```
@@ -52,11 +64,6 @@ python3 main.py ctseg --exp_id coco_dla_1x --batch_size 2 --master_batch -1 --lr
 #### Testing
 ```
 python3 test.py ctseg --exp_id coco_dla_1x --keep_res --resume
-```
-
-#### Demo
-```
-python3 demo.py ctseg --exp_id coco_dla_1x --keep_res --resume --demo ../data/coco/val2017
 ```
 
 ## License
