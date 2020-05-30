@@ -198,6 +198,12 @@ class Debugger(object):
             cv2.putText(self.imgs[img_id], txt, (bbox[0], bbox[1] - 2),
                         font, 0.5, (0, 0, 0), thickness=1, lineType=cv2.LINE_AA)
 
+    def add_coco_seg(self, seg, img_id='default'):
+        seg = seg > 0.5
+        color = np.array([[np.random.randint(0, 255), np.random.randint(
+            0, 255), np.random.randint(0, 255)]])
+        self.imgs[img_id][seg] = self.imgs[img_id][seg]*0.2 + color*0.8
+
     def add_coco_hp(self, points, img_id='default'):
         points = np.array(points, dtype=np.int32).reshape(self.num_joints, 2)
         for j in range(self.num_joints):

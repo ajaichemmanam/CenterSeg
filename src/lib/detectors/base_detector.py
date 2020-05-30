@@ -99,7 +99,7 @@ class BaseDetector(object):
 
         loaded_time = time.time()
         load_time += (loaded_time - start_time)
-
+        img_h, img_w = image.shape[:2]  # Required for ctseg
         detections = []
         for scale in self.scales:
             scale_start_time = time.time()
@@ -110,6 +110,7 @@ class BaseDetector(object):
                 images = pre_processed_images['images'][scale][0]
                 meta = pre_processed_images['meta'][scale]
                 meta = {k: v.numpy()[0] for k, v in meta.items()}
+            meta['img_size'] = (img_h, img_w)  # Required for ctseg
             images = images.to(self.opt.device)
             if torch.cuda.is_available():
                 torch.cuda.synchronize()

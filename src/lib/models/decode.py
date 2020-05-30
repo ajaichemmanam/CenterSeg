@@ -4,6 +4,7 @@ from __future__ import print_function
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from .utils import _gather_feat, _transpose_and_gather_feat
 
 

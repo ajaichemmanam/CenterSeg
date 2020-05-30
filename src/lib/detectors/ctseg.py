@@ -35,7 +35,8 @@ class CtsegDetector(BaseDetector):
             conv_weigt = output['conv_weight']
             reg = output['reg'] if self.opt.reg_offset else None
             assert not self.opt.flip_test, "not support flip_test"
-            torch.cuda.synchronize()
+            if torch.cuda.is_available():
+                torch.cuda.synchronize()
             forward_time = time.time()
             dets, masks = ctseg_decode(
                 hm, wh, seg_feat, conv_weigt, reg=reg, cat_spec_wh=self.opt.cat_spec_wh, K=self.opt.K)
