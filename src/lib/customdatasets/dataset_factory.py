@@ -6,6 +6,7 @@ from .sample.ddd import DddDataset
 from .sample.exdet import EXDetDataset
 from .sample.ctdet import CTDetDataset
 from .sample.ctseg import CTSegDataset
+from .sample.ctposeseg import CTPoseSegDataset
 from .sample.multi_pose import MultiPoseDataset
 
 from .dataset.coco import COCO
@@ -25,6 +26,7 @@ _sample_factory = {
   'exdet': EXDetDataset,
   'ctdet': CTDetDataset,
   'ctseg':CTSegDataset,
+  'ctposeseg': CTPoseSegDataset,
   'ddd': DddDataset,
   'multi_pose': MultiPoseDataset
   
@@ -32,7 +34,6 @@ _sample_factory = {
 
 
 def get_dataset(dataset, task):
-  class Dataset(dataset_factory[dataset], _sample_factory[task]):
-    pass
-  return Dataset
-  
+    class Dataset(dataset_factory[dataset], _sample_factory[task]):
+        pass
+    return Dataset

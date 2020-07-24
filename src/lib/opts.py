@@ -11,9 +11,9 @@ class opts(object):
     def __init__(self):
         self.parser = argparse.ArgumentParser()
         # basic experiment setting
-        self.parser.add_argument('task', default='cetseg',
-                                 help='ctdet | ddd | multi_pose | exdet |cetseg')
-        self.parser.add_argument('--dataset', default='coco',
+        self.parser.add_argument('task', default='cetposeseg',
+                                 help='ctdet | ddd | multi_pose | exdet |cetseg |cetposeseg')
+        self.parser.add_argument('--dataset', default='coco_hp',
                                  help='coco | kitti | coco_hp | pascal')
         self.parser.add_argument('--exp_id', default='default')
         self.parser.add_argument('--test', action='store_true')
@@ -335,6 +335,20 @@ class opts(object):
                          }
             if opt.reg_offset:
                 opt.heads.update({'reg': 2})
+
+        elif opt.task == 'ctposeseg':
+            opt.heads = {'hm': opt.num_classes,
+                         'wh': 2 if not opt.cat_spec_wh else 2 * opt.num_classes,
+                         'hps': 34,
+                         'conv_weight': 2*opt.seg_feat_channel**2 + 5*opt.seg_feat_channel + 1,
+                         'seg_feat': opt.seg_feat_channel
+                         }
+            if opt.reg_offset:
+                opt.heads.update({'reg': 2})
+            if opt.hm_hp:
+                opt.heads.update({'hm_hp': 17})
+            if opt.reg_hp_offset:
+                opt.heads.update({'hp_offset': 2})
         elif opt.task == 'multi_pose':
             # assert opt.dataset in ['coco_hp']
             opt.flip_idx = dataset.flip_idx
@@ -361,6 +375,12 @@ class opts(object):
             'exdet': {'default_resolution': [512, 512], 'num_classes': 80,
                       'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
                       'dataset': 'coco'},
+            'ctposeseg': {
+                'default_resolution': [512, 512], 'num_classes': 1,
+                'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
+                'dataset': 'coco_hp', 'num_joints': 17,
+                'flip_idx': [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10],
+                             [11, 12], [13, 14], [15, 16]]},
             'multi_pose': {
                 'default_resolution': [512, 512], 'num_classes': 1,
                 'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],

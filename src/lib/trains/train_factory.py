@@ -7,11 +7,13 @@ from .ddd import DddTrainer
 from .exdet import ExdetTrainer
 from .multi_pose import MultiPoseTrainer
 from .ctseg import CtsegTrainer
+from .ctposeseg import CtPoseSegTrainer
 
 train_factory = {
     'exdet': ExdetTrainer,
     'ddd': DddTrainer,
     'ctdet': CtdetTrainer,
     'multi_pose': MultiPoseTrainer,
-    'ctseg': CtsegTrainer
+    'ctseg': CtsegTrainer,
+    'ctposeseg': CtPoseSegTrainer
 }

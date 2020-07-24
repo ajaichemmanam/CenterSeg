@@ -134,6 +134,34 @@ def ctseg_post_process(dets, masks, c, s, h, w, img_h, img_w, num_classes):
     return ret
 
 
+def ctposeseg_post_process(dets, masks, c, s, h, w, img_h, img_w, num_classes):
+    ret = []
+    for i in range(dets.shape[0]):
+        top_preds = {}
+        dets[i, :, :2] = transform_preds(
+            dets[i, :, 0:2], c[i], s[i], (w, h))
+        dets[i, :, 2:4] = transform_preds(
+            dets[i, :, 2:4], c[i], s[i], (w, h))
+        pts = transform_preds(
+            dets[i, :, 5:39].reshape(-1, 2), c[i], s[i], (w, h))
+        classes = dets[i, :, -1]
+        trans = get_affine_transform(c[i], s[i], 0, (w, h), inv=1)
+        for j in range(num_classes):
+            inds = (classes == j)
+
+            top_preds[j + 1] = {'boxs': np.concatenate([
+                dets[i, inds, :4].astype(np.float32),
+                dets[i, inds, 4:5].astype(np.float32),
+                pts.reshape(-1, 34)], axis=1),
+                'pred_mask': [mask_utils.encode(
+                    (np.asfortranarray(cv2.warpAffine(mask, trans, (img_w, img_h),
+                                                      flags=cv2.INTER_CUBIC) > 0.5).astype(np.uint8)))
+                for mask in masks[i, inds]]
+            }
+        ret.append(top_preds)
+    return ret
+
+
 def multi_pose_post_process(dets, c, s, h, w):
     # dets: batch x max_dets x 40
     # return list of 39 in image coord
