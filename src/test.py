@@ -62,7 +62,7 @@ def prefetch_test(opt):
 
     data_loader = torch.utils.data.DataLoader(
         PrefetchDataset(opt, dataset, detector.pre_process),
-        batch_size=1, shuffle=False, num_workers=1, pin_memory=True)
+        batch_size=1, shuffle=False, num_workers=0, pin_memory=True)
 
     results = {}
     num_iters = len(dataset)
