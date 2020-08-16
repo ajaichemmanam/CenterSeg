@@ -35,20 +35,20 @@ def main(opt):
     model = create_model(opt.arch, opt.heads, opt.head_conv)
     optimizer = torch.optim.Adam(model.parameters(), opt.lr)
     start_epoch = 0
-    if opt.load_model != '':
-        model, optimizer, start_epoch = load_model(
-            model, opt.load_model, optimizer, opt.resume, opt.lr, opt.lr_step)
 
     Trainer = train_factory[opt.task]
     trainer = Trainer(opt, model, optimizer)
     trainer.set_device(opt.gpus, opt.chunk_sizes, opt.device)
+    if opt.load_model != '':
+        model, optimizer, start_epoch = load_model(
+            model, opt.load_model, trainer.optimizer, opt.resume, opt.lr, opt.lr_step)
 
     print('Setting up data...')
     val_loader = torch.utils.data.DataLoader(
         Dataset(opt, 'val'),
         batch_size=1,
         shuffle=False,
-        num_workers=1,
+        num_workers=0,
         pin_memory=True,
         collate_fn=collate
     )
