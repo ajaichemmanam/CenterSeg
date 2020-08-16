@@ -39,7 +39,7 @@ Compile DCN
 ```
 cd src/lib/models/networks/DCNv2/
 
-python3 setup build develop
+python3 setup.py build develop
 ```
 
 Compile NMS
