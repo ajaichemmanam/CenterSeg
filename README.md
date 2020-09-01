@@ -7,27 +7,8 @@ This repo uses Centernet and Conditional Convolutions for Instance Segmentation
 
 ## Installation
 
-Please refer to [INSTALL.md](readme/INSTALL.md) for installation instructions.
-
 This repo supports both CPU and GPU Training and Inference.
 
-## Pre-Trained Models
-
-Pre-Release : [Google Drive](https://drive.google.com/drive/folders/1Uw0ucRLpyyHT0pGW2N0o5BcYdSfdNYyC?usp=sharing)
-
-Download the recent model, copy to exp/ctseg/coco_dla_1x/
-
-Rename as model_last.pth
-
-```
-python3 demo.py ctseg --exp_id coco_dla_1x --keep_res --resume --demo ../data/coco/val2017
-```
-
-Note: Model is still training. The initial model may give poor results.
-
-Will update in the drive once the training finishes.
-
-## Setup
 ```
 git clone --recurse-submodules https://github.com/ajaichemmanam/CenterSeg.git
 
@@ -48,6 +29,20 @@ cd src/lib/external
 
 python3 setup.py build_ext --inplace
 ```
+
+## Pre-Trained Models
+
+Pre-Release : [Google Drive](https://drive.google.com/drive/folders/1Uw0ucRLpyyHT0pGW2N0o5BcYdSfdNYyC?usp=sharing)
+
+Download the most recent model (model_last_e101.pth), copy to exp/ctseg/coco_dla_1x/
+
+Rename as model_last.pth
+
+```
+python3 demo.py ctseg --exp_id coco_dla_1x --keep_res --resume --demo ../data/coco/val2017
+```
+
+Note: Model is not completely trained (101 Epochs only). Will update later.
 
 #### Training
 
