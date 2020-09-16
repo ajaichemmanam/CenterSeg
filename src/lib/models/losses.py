@@ -176,7 +176,7 @@ class DiceLoss(nn.Module):
         batch_size = seg_feat.size(0)
         weight = _transpose_and_gather_feat(conv_weight, ind)
         h, w = seg_feat.size(-2), seg_feat.size(-1)
-        x, y = ind % w, ind/w
+        x, y = ind % w, ind//w
         x_range = torch.arange(w).float().to(device=seg_feat.device)
         y_range = torch.arange(h).float().to(device=seg_feat.device)
         y_grid, x_grid = torch.meshgrid([y_range, x_range])
