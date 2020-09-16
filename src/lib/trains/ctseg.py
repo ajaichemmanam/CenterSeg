@@ -68,7 +68,6 @@ class CtsegLoss(torch.nn.Module):
             if opt.reg_offset and opt.off_weight > 0:
                 off_loss += self.crit_reg(output['reg'], batch['reg_mask'],
                                           batch['ind'], batch['reg']) / opt.num_stacks
-
             mask_loss += self.crit_mask(output['seg_feat'], output['conv_weight'],
                                         batch['reg_mask'], batch['ind'], batch['instance_mask'])
 
