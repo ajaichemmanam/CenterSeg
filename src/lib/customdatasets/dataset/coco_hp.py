@@ -127,18 +127,30 @@ class COCOHP(data.Dataset):
     def __len__(self):
         return self.num_samples
 
+    # Can't save in json as pred_mask contains bytes which is not json serialisable.
+    # def save_results(self, results, save_dir):
+    #     json.dump(self.convert_eval_format(results),
+    #               open('{}/results.json'.format(save_dir), 'w'))
+
     def save_results(self, results, save_dir):
-        json.dump(self.convert_eval_format(results),
-                  open('{}/results.json'.format(save_dir), 'w'))
+        with open('{}/results.obj'.format(save_dir), 'wb') as file_object:
+            pickle.dump(self.convert_eval_format(results), file_object)
+        print('Saved results as {}/results.obj'.format(save_dir))
+
+    def load_results(self, save_dir):
+        with open('{}/results.obj'.format(save_dir), 'rb') as file_object:
+            raw_data = file_object.read()
+            deserialized = pickle.loads(raw_data)
+            return deserialized
 
     def run_eval(self, results, save_dir):
         # result_json = os.path.join(opt.save_dir, "results.json")
         # detections  = convert_eval_format(all_boxes)
         # json.dump(detections, open(result_json, "w"))
-        # self.save_results(results, save_dir)
+        self.save_results(results, save_dir)
         # coco_dets = self.coco.loadRes('{}/results.json'.format(save_dir))
-        # TODO: Saving results doesn't work, as pred_mask contains bytes which is not json serialisable.
-        detections = self.convert_eval_format(results)
+        detections = self.load_results(save_dir)
+        # detections = self.convert_eval_format(results)
         coco_dets = self.coco.loadRes(detections)
 
         coco_eval = COCOeval(self.coco, coco_dets, "keypoints")
