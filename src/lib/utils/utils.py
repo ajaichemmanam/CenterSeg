@@ -10,6 +10,7 @@ import torch
 
 np_str_obj_array_pattern = re.compile(r'[SaUO]')
 
+
 class AverageMeter(object):
     """Computes and stores the average and current value"""
 
@@ -29,9 +30,11 @@ class AverageMeter(object):
         if self.count > 0:
             self.avg = self.sum / self.count
 
+
 collate_err_msg_format = (
     "default_collate: batch must contain tensors, numpy arrays, numbers, "
     "dicts or lists; found {}")
+
 
 def collate(batch):
     r"""Puts each data field into a tensor with outer dimension batch size"""
@@ -64,9 +67,10 @@ def collate(batch):
         return torch.tensor(batch)
     elif isinstance(elem, string_classes):
         return batch
-    
+
     elif isinstance(elem, container_abcs.Mapping):
-        res = {key: collate([d[key] for d in batch]) for key in elem if key != 'instance_mask'}
+        res = {key: collate([d[key] for d in batch])
+               for key in elem if key != 'instance_mask'}
         if 'instance_mask' in elem:
             max_obj = max([d['instance_mask'].shape[0] for d in batch])
             instance_mask = torch.zeros(
@@ -84,7 +88,8 @@ def collate(batch):
         it = iter(batch)
         elem_size = len(next(it))
         if not all(len(elem) == elem_size for elem in it):
-            raise RuntimeError('each element in list of batch should be of equal size')
+            raise RuntimeError(
+                'each element in list of batch should be of equal size')
         transposed = zip(*batch)
         return [collate(samples) for samples in transposed]
 
