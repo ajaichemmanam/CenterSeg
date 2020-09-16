@@ -145,6 +145,7 @@ class COCO(data.Dataset):
         # coco_dets = self.coco.loadRes('{}/results.json'.format(save_dir))
         detections = self.convert_eval_format(results)
         coco_dets = self.coco.loadRes(detections)
+
         coco_eval = COCOeval(self.coco, coco_dets, "bbox")
         coco_eval.evaluate()
         coco_eval.accumulate()
