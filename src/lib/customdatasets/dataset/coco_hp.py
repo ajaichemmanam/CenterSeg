@@ -135,8 +135,9 @@ class COCOHP(data.Dataset):
         # result_json = os.path.join(opt.save_dir, "results.json")
         # detections  = convert_eval_format(all_boxes)
         # json.dump(detections, open(result_json, "w"))
-        self.save_results(results, save_dir)
+        # self.save_results(results, save_dir)
         # coco_dets = self.coco.loadRes('{}/results.json'.format(save_dir))
+        # TODO: Saving results doesn't work, as pred_mask contains bytes which is not json serialisable.
         detections = self.convert_eval_format(results)
         coco_dets = self.coco.loadRes(detections)
 
